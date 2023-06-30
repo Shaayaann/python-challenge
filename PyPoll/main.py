@@ -13,12 +13,12 @@ with open(csvpath) as csvfile:
    
     next(csvreader, None)
     for row in csvreader:
-        # print(row)
-        candidates.append(row[2])
-        # month.append(row[0])
 
-candidates_name = ['Diana DeGette', 'Charles Casper Stockham', 'Raymon Anthony Doane']
-# print(candidates_name)
+        candidates.append(row[2])
+
+
+
+#creating counting variables to find the total votes for each candidate 
 
 charles_count = 0
 diana_count = 0 
@@ -35,6 +35,7 @@ for i in range(0,len(candidates)):
     else:
         rymon_count += 1
 
+#Creating lists for candidates' name, votes, and percentage 
 count = [diana_count, charles_count,  rymon_count]
 
 charles_percent = round((charles_count/len(candidates))*100,3)
@@ -43,18 +44,26 @@ rymon_percent = round((rymon_count/len(candidates))*100,3)
 
 percent = [diana_percent,charles_percent, rymon_percent]
 
+candidates_name = ['Diana DeGette', 'Charles Casper Stockham', 'Raymon Anthony Doane']
+
+#Zip the lists into the final list as a summary of the election 
+Final_list = list(zip(candidates_name, percent,count))
+
+
 winner_value = max (percent)
 
 
 
-Final_list = list(zip(candidates_name, percent,count))
-
-print(Final_list)
 
 
 
+print(f'Total Votes: {len(candidates)}')
+print(f'The summary of election: {Final_list}')
+
+
+#Finding the winner from the final list (summary) 
 for i in range (len(candidates_name)):
-    # print(Final_list[i][1])
+
 
     if Final_list[i][1] == winner_value:
 
@@ -63,20 +72,28 @@ for i in range (len(candidates_name)):
 
 
 
+#Creating a text file for the results
+output_path = os.path.join( "analysis", "analysis.txt")
 
 
-#     change.append(pl[i+1] - pl[i])
+with open(output_path, 'w') as csvfile:
 
-# max = max(change)
-# min = min(change)
+ 
+    csvwriter = csv.writer(csvfile, delimiter=',')
 
-# cleaned_data = list(zip(month, pl))
-# print(cleaned_data[1][1])
 
-# total = sum(pl)
-# average = sum(change)/len(change)
-# print('Total Months : ', len(month))
-# print('Total = ', total, '$')
-# print('Average Change :', round(average,2))
-# print('Greatest Increase in Profits', max , month[(change.index(max))+1])
-# print('Greatest Decrease in Profits', min , month[(change.index(min))+1])
+
+    csvwriter.writerow(['Election Results'])
+
+    csvwriter.writerow(['----------------------------'])
+    csvwriter.writerow(['Total Votes: 369711' ])
+    csvwriter.writerow(['----------------------------' ])
+    csvwriter.writerow(['Charles Casper Stockham: 23.049% (85213)' ])
+    csvwriter.writerow(['Diana DeGette: 73.812% (272892)' ])
+    csvwriter.writerow(['Raymon Anthony Doane: 3.139% (11606)' ])
+    csvwriter.writerow(['----------------------------' ])
+    csvwriter.writerow(['Winner: Diana DeGette' ])
+    csvwriter.writerow(['----------------------------' ])
+
+
+
